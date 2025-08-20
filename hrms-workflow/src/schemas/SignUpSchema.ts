@@ -6,7 +6,11 @@ export const SignUpSchema = z
     firstName: z.string().min(1, "First Name is required"),
     lastName: z.string().min(1, "Last Name is required"),
     email: z.string().min(1, "Email is required").email("Invalid Email"),
-    password: z.string().min(8, "Password must be 8+ characters"),
+    password: z.string()
+                .min(8, "Password must be 8+ characters")
+                .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+                .regex(/[0-9]/, "Password must contain at least one number")
+                .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),            
     confirmPassword: z.string().min(8, "Confirm Password must be 8+ characters"),
     subDomain: z.string().min(3, "Workspace name must be 3+ characters"),
     companyName: z.string().min(1, "Company Name is Required"),

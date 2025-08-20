@@ -33,9 +33,12 @@ import {
 import countryList from 'react-select-country-list';
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import { Route as otpRoute} from '../routes/verify-otp.tsx';
+import { useRouter } from '@tanstack/react-router'
 
 
 import './SignUpForm.scss';
+import { SpinnerGif } from "@/common/SpinnerGif";
 
 const SignUpDefaultValues = {
   "firstName": "",
@@ -56,6 +59,7 @@ const SignUpForm = () => {
   const [formGroup, setFormGroup] = useState<number>(0);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [isSignUpSubmitted, setIsSignUpSubmitted] = useState<boolean>(false);
   const countryOptions = useMemo(() => countryList().getData(), []);
 
 
@@ -64,8 +68,11 @@ const SignUpForm = () => {
     defaultValues: SignUpDefaultValues
   })
 
+  const router = useRouter();
   const onSubmit = (values: z.infer<typeof SignUpSchema>) => {
+    setIsSignUpSubmitted(true);
     console.log("submitted", values)
+    router.navigate({ to: otpRoute.id }) 
   }
 
   const onNextClick = async () => {
@@ -343,6 +350,9 @@ const SignUpForm = () => {
               {formGroup !== 0 && (
                 <div className="submit-row">
                   <Button type="submit" size="lg" className="submit-button">
+                    {isSignUpSubmitted && 
+                      <SpinnerGif />
+                    }
                     Get Started
                   </Button> 
                 </div>
