@@ -1,11 +1,20 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Link, Outlet, useMatches } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import AppLayout from '@/common/AppLayout'
 
-export const Route = createRootRoute({
-  component: () => (
+const Root = () => {
+  const matches = useMatches()
+  // If any matched route sets staticData.noLayout = true, skip the Layout
+  const noLayout = matches.some((m:any) => m.staticData?.noLayout)
+
+  const content = <Outlet />
+  return (
     <>
-      <Outlet />
+      {noLayout ? content : <AppLayout>{content}</AppLayout>}
       <TanStackRouterDevtools />
     </>
-  ),
+  )
+}
+export const Route = createRootRoute({
+  component: Root
 })
