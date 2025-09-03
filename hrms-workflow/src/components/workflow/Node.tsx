@@ -20,6 +20,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {
+    Card,
+    CardContent,
+  } from "@/components/ui/card"
 
 import { availableIntegrations, type AvailableIntegration } from "@/common/utils";
 
@@ -34,10 +38,13 @@ const AddButtonNode = (props: AddButtonProps) => {
     const [selectedNode, setSelectedNode] = useState("");
 
     const onClick = (e: ReactMouseEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setOpen(!open);
-        props.data.onAdd(selectedNode);
+        if(selectedNode !== "") {
+            e.preventDefault();
+            e.stopPropagation();
+            setOpen(!open);
+            props.data.onAdd(selectedNode);
+            setSelectedNode("");
+        }
     }
 
     return(
@@ -79,10 +86,12 @@ const AddButtonNode = (props: AddButtonProps) => {
 const ActionNode:React.FC<any> = (props: NodeProps) => {
     console.log(props)
     return (
-        <div className="action-node">
-            <img src={props.data.icon} width={200} height={200} />
-            <h1>{props.data.label}</h1>
-        </div>
+        <Card className="bg-transparent">
+            <CardContent className="action-node">
+                <img src={props.data.icon} width={100} height={100} />
+                <h2>{props.data.label}</h2>
+            </CardContent>
+        </Card>
     )
 }
 

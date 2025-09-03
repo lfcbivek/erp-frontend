@@ -4,7 +4,7 @@ import AppSidebar from "../components/AppSidebar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex">
       {/* Sidebar */}
       <AppSidebar />
 
